@@ -6,6 +6,6 @@ module "livestorm-tf-states" {
   prefix = "${terraform.workspace}-livestorm"
 }
 
-# Create EKS module
+# Create ECS module
 
 

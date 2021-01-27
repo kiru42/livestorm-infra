@@ -1,10 +1,4 @@
-variable "prefix" {
-  type    = string
-  default = "livestorm-dev"
-}
-
 data "aws_region" "current" {}
-
 
 resource "aws_s3_bucket" "terraform-state" {
   bucket = "${var.prefix}-tf-states"
