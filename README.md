@@ -2,7 +2,7 @@
 
 We are going to migrate LiveStorm on ECS.
 
-LiveStorm is a wep application with a frontend in vuejs and a backend in Rails.
+LiveStorm is a monolithic application built on Rails : responding `Hello world` on GET `/`
 
 We will be creating the infrastruction on AWS using Terraform. 
 
@@ -19,10 +19,8 @@ Here are the modules we will be ceating for terraform :
 
 - a module to manage terraform states (S3 as backend for tf states + DynamoDb for tf lock)
 - a module to create an ECS
-- a module to create a RDS Aurora
-- a module to create an ElasticCache (Redis)
-- a module to create a S3 bucket
-- a module to create a cloudfront distribution for frontend & statics contents
+
+Then we will configure a rails application with circle-ci to build, test, and deploy
 
 # Running docker with infra tools
 
