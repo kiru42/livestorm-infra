@@ -6,10 +6,6 @@ module "livestorm-tf-states" {
   prefix = "${terraform.workspace}-livestorm"
 }
 
-# todo : create Aurora
+# Create EKS module
 
-# todo : create S3 bucket for static contents
 
-# todo : create EKS module
-
-# todo : create 

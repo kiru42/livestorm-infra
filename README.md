@@ -1,6 +1,6 @@
-# LiveStorm on EKS
+# LiveStorm on ECS
 
-We are going to migrate LiveStorm on EKS.
+We are going to migrate LiveStorm on ECS.
 
 LiveStorm is a wep application with a frontend in vuejs and a backend in Rails.
 
@@ -10,8 +10,6 @@ We will be creating the infrastruction on AWS using Terraform.
 
 We will be using :
 - Terraform version : 0.14.5
-- Amazon EKS platform version : eks.3
-- Kubernetes version : 1.18.9
 
 # Infrastructure
 
@@ -20,7 +18,7 @@ We will create a Dockerfile with fixed terraform & providers versions for sharin
 Here are the modules we will be ceating for terraform :
 
 - a module to manage terraform states (S3 as backend for tf states + DynamoDb for tf lock)
-- a module to create an EKS cluster
+- a module to create an ECS
 - a module to create a RDS Aurora
 - a module to create an ElasticCache (Redis)
 - a module to create a S3 bucket
