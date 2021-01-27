@@ -35,3 +35,42 @@ docker build -t livestorm-terraform-workspace .
 
 docker run -it -v "$(pwd)":/livestorm -v "$(pwd)/.kube":/root/.kube -v "$(pwd)/.aws":/root/.aws livestorm-terraform-workspace bash
 ```
+
+# Using terraform inside docker container
+
+```bash
+cd projects/livestorm
+terraform init && terraform plan
+terraform apply # if everything seems fine to you
+```
+
+if you don't have access_key/secret_key configured for aws, you can open the following file (`projects/livestorm/provider.tf`) and copy paste this for testing the plan :
+
+```tf
+provider "aws" {
+  #profile = "default"
+  region = "eu-west-1"
+  #region                      = "${var.region}"
+  skip_credentials_validation = true
+  skip_requesting_account_id  = true
+  skip_metadata_api_check     = true
+  s3_force_path_style         = true
+  access_key                  = "mock_access_key"
+  secret_key                  = "mock_secret_key"
+
+  endpoints {
+    dynamodb = "http://localhost:4569"
+    s3       = "http://localhost:4572"
+  }
+}
+```
+
+# Using workspace for different environment
+
+```
+terraform workspace new dev
+terraform workspace new qa
+terraform workspace new staging
+terraform workspace new prod
+terraform workspace select dev
+```
