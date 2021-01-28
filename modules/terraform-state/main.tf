@@ -3,7 +3,6 @@ data "aws_region" "current" {}
 resource "aws_s3_bucket" "terraform-state" {
   bucket = "${var.prefix}-tf-states"
   acl    = "private"
-  #region = data.aws_region.current.name
 
   versioning {
     enabled = true
