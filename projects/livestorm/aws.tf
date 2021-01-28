@@ -7,6 +7,7 @@ locals {
   environment      = terraform.workspace
   instance_type    = "t2.micro"
   resources_prefix = "${local.environment}-${local.name}"
+  region           = "eu-west-1"
 }
 
 #################
@@ -91,6 +92,7 @@ module "ecs" {
   default_capacity_provider_strategy = [
     {
       capacity_provider = aws_ecs_capacity_provider.capacity_provider.name
+      weight            = 100
     }
   ]
 
@@ -135,4 +137,13 @@ module "asg" {
       propagate_at_launch = true
     },
   ]
+}
+
+# Create ECS Service for livestorm along default task definition
+
+module "hello_world" {
+  source     = "../../modules/ecs-service"
+  region     = local.region
+  name       = local.resources_prefix
+  cluster_id = module.ecs.ecs_cluster_id
 }
