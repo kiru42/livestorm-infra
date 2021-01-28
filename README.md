@@ -29,13 +29,16 @@ Then we will configure a rails application with circle-ci to build, test, and de
 
 docker build -t livestorm-terraform-workspace .
 
-docker run -it -v "$(pwd)":/livestorm -v "$(pwd)/.kube":/root/.kube -v "$(pwd)/.aws":/root/.aws livestorm-terraform-workspace bash
+docker run -it -v "$(pwd)":/livestorm -v "$(pwd)/.aws":/root/.aws livestorm-terraform-workspace bash
 ```
 
 # Using terraform inside docker container
 
 ```bash
 cd projects/livestorm
+
+# for dev
+terraform workspace select dev
 terraform init && terraform plan
 terraform apply # if everything seems fine to you
 ```

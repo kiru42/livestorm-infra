@@ -1,4 +1,4 @@
-resource "aws_ecs_cluster" "this" {
+resource "aws_ecs_cluster" "ecs" {
   count = var.create_ecs ? 1 : 0
 
   name = var.name
@@ -22,4 +22,13 @@ resource "aws_ecs_cluster" "this" {
   }
 
   tags = var.tags
+}
+
+resource "aws_ecr_repository" "ecr" {
+  name                 = var.name
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }

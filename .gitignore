@@ -1,2 +1,4 @@
 .terraform
 .terraform.lock.hcl
+projects/livestorm/terraform.tfstate.d/
+.aws
