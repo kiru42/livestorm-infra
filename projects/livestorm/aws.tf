@@ -8,6 +8,19 @@ locals {
   instance_type    = "t2.micro"
   resources_prefix = "${local.environment}-${local.name}"
   region           = "eu-west-1"
+
+  ## VPC related
+  cidr            = "10.1.0.0/16"
+  private_subnets = ["10.1.1.0/24", "10.1.2.0/24"]
+  public_subnets  = ["10.1.11.0/24", "10.1.12.0/24"]
+
+  # Domain related stuff (for testing purpose)
+  public_zone_id = "Z10013643R0L0TLYMUOW8"
+  domain_name    = "kiruban.fr"
+  acm_arn        = "arn:aws:acm:eu-west-1:002888593661:certificate/8a23f70c-4f58-4f6a-98cd-a19bbbded161"
+
+  # App details
+  service_port = 3000
 }
 
 #################
@@ -70,10 +83,10 @@ module "vpc" {
   source             = "terraform-aws-modules/vpc/aws"
   version            = "2.66.0"
   name               = local.resources_prefix
-  cidr               = "10.1.0.0/16"
+  cidr               = local.cidr
   azs                = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1]]
-  private_subnets    = ["10.1.1.0/24", "10.1.2.0/24"]
-  public_subnets     = ["10.1.11.0/24", "10.1.12.0/24"]
+  private_subnets    = local.private_subnets
+  public_subnets     = local.public_subnets
   enable_nat_gateway = false
 
   tags = {
@@ -146,4 +159,29 @@ module "hello_world" {
   region     = local.region
   name       = local.resources_prefix
   cluster_id = module.ecs.ecs_cluster_id
+}
+
+# Creating ELB for ECS
+
+module "elb" {
+  source = "../../modules/elb"
+
+  name       = local.resources_prefix
+  region     = local.region
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = ["subnet-051e4fb54f8420729", "subnet-0ec24744d79fa47ff"]
+
+  service_name            = local.name
+  service_port            = local.service_port
+  service_certificate_arn = local.acm_arn
+
+  domain_name    = local.domain_name
+  public_zone_id = local.public_zone_id
+
+  health_check_target = "TCP:${local.service_port}"
+
+  allow_cidrs = [local.cidr]
+
+  include_public_dns_record = "yes"
+  expose_to_public_internet = "yes"
 }
