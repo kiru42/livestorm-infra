@@ -18,9 +18,15 @@ We will create a Dockerfile with fixed terraform & providers versions for sharin
 Here are the modules we will be ceating for terraform :
 
 - a module to manage terraform states (S3 as backend for tf states + DynamoDb for tf lock)
-- a module to create an ECS
+- a module to create an ECS cluster along an ECR repository for pushing docker images
+- a module to create ECS service : service & task definition
+- a module to create a load balancer, here an ELB with ACM and route53 entry
 
-Then we will configure a rails application with circle-ci to build, test, and deploy
+Things managed manually for testing purpose, could be terraformed if needed :
+- Route53 public zone
+- ACM certificate
+
+Then we will configure a rails application with github actions to build and deploy
 
 # Running docker with infra tools
 
