@@ -18,7 +18,7 @@ resource "aws_lb" "alb" {
 resource "aws_lb_target_group" "target_group" {
   name        = var.name
   port        = var.service_port
-  protocol    = "HTTP2"
+  protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "instance"
 
@@ -85,6 +85,13 @@ resource "aws_security_group" "load_balancer" {
   ingress {
     from_port   = 443
     to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = var.allow_cidrs
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = var.allow_cidrs
   }
