@@ -14,9 +14,9 @@ resource "aws_ecs_service" "ecs_service_main" {
   deployment_minimum_healthy_percent = 50
 
   load_balancer {
-    elb_name       = var.name
-    container_name = var.name
-    container_port = 3000
+    target_group_arn = var.target_group_arn
+    container_name   = var.name
+    container_port   = 3000
   }
 
   deployment_controller {

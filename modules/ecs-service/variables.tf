@@ -14,3 +14,9 @@ variable "region" {
   type        = string
   default     = "eu-west-1"
 }
+
+variable "target_group_arn" {
+  description = "Target Group ARN."
+  type        = string
+  default     = null
+}

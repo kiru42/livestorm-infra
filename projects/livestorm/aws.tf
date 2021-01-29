@@ -22,8 +22,8 @@ locals {
   # App details
   service_port = 3000
 
-  # ELB releted
-  allowed_cidrs_for_elb = ["0.0.0.0/0"]
+  # ALB releted
+  allowed_cidrs_for_alb = ["0.0.0.0/0"]
 }
 
 #################
@@ -66,12 +66,12 @@ resource "aws_ecs_capacity_provider" "capacity_provider" {
   name = local.resources_prefix
   auto_scaling_group_provider {
     auto_scaling_group_arn = module.asg.this_autoscaling_group_arn
-    managed_scaling {
-      maximum_scaling_step_size = 1000
-      minimum_scaling_step_size = 1
-      status                    = "ENABLED"
-      target_capacity           = 10
-    }
+    # managed_scaling {
+    #   maximum_scaling_step_size = 1000
+    #   minimum_scaling_step_size = 1
+    #   status                    = "ENABLED"
+    #   target_capacity           = 10
+    # }
   }
 }
 
@@ -132,11 +132,11 @@ module "ecs" {
 # Create Auto Scaling Group from official ASG module
 
 module "asg" {
-  source         = "terraform-aws-modules/autoscaling/aws"
-  version        = "3.8.0"
-  name           = local.resources_prefix
-  lc_name        = local.resources_prefix # Launch Config
-  load_balancers = [local.resources_prefix]
+  source            = "terraform-aws-modules/autoscaling/aws"
+  version           = "3.8.0"
+  name              = local.resources_prefix
+  lc_name           = local.resources_prefix # Launch Config
+  target_group_arns = [module.alb.target_group_arn]
 
   image_id             = data.aws_ami.amazon_linux_ecs.id
   instance_type        = local.instance_type
@@ -176,16 +176,17 @@ module "asg" {
 # Create ECS Service for livestorm along default task definition
 
 module "hello_world" {
-  source     = "../../modules/ecs-service"
-  region     = local.region
-  name       = local.resources_prefix
-  cluster_id = module.ecs.ecs_cluster_id
+  source           = "../../modules/ecs-service"
+  region           = local.region
+  name             = local.resources_prefix
+  cluster_id       = module.ecs.ecs_cluster_id
+  target_group_arn = module.alb.target_group_arn
 }
 
-# Creating ELB for ECS
+# Creating ALB for ECS
 
-module "elb" {
-  source = "../../modules/elb"
+module "alb" {
+  source = "../../modules/alb"
 
   name       = local.resources_prefix
   region     = local.region
@@ -201,7 +202,7 @@ module "elb" {
 
   health_check_target = "HTTP:${local.service_port}/"
 
-  allow_cidrs = local.allowed_cidrs_for_elb
+  allow_cidrs = local.allowed_cidrs_for_alb
 
   include_public_dns_record = "yes"
   expose_to_public_internet = "yes"
