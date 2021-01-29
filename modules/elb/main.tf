@@ -1,4 +1,5 @@
 resource "aws_elb" "service" {
+  name    = var.name
   subnets = var.subnet_ids
   security_groups = [
     aws_security_group.load_balancer.id
@@ -24,7 +25,7 @@ resource "aws_elb" "service" {
     unhealthy_threshold = 2
     timeout             = 3
     target              = var.health_check_target
-    interval            = 30
+    interval            = 10
   }
 
   tags = {
@@ -84,4 +85,12 @@ resource "aws_security_group" "open_to_load_balancer" {
       aws_security_group.load_balancer.id
     ]
   }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 }

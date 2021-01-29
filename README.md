@@ -22,7 +22,7 @@ Here are the modules we will be ceating for terraform :
 - a module to create ECS service : service & task definition
 - a module to create a load balancer, here an ELB with ACM and route53 entry
 
-We will use the following offial modules for these needs :
+We will use the following official modules for these needs :
 
 - terraform-aws-modules/vpc/aws for creating VPC
 - terraform-aws-modules/autoscaling/aws for creating ASG
