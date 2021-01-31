@@ -146,9 +146,9 @@ module "asg" {
   asg_name                  = local.resources_prefix
   vpc_zone_identifier       = module.vpc.private_subnets
   health_check_type         = "ELB"
-  min_size                  = 1
+  min_size                  = 2
   max_size                  = 3
-  desired_capacity          = 1
+  desired_capacity          = 2
   wait_for_capacity_timeout = 0
 
   tags = [

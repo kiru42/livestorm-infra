@@ -10,15 +10,16 @@ resource "aws_cloudwatch_log_group" "ecs_service_cloudwatch_log_group" {
 # default task definition (needed to create ECS service), then managed by CI/CD from github actions
 
 resource "aws_ecs_task_definition" "ecs_service_task_definition" {
-  family = var.name
+  family       = var.name
+  network_mode = "bridge"
 
   container_definitions = <<EOF
 [
   {
     "name": "${local.container_name}",
-    "image": "002888593661.dkr.ecr.eu-west-1.amazonaws.com/${var.name}:latest",
-    "cpu": 254,
-    "memory": 128,
+    "image": "managed_from_github_actions",
+    "cpu": 128,
+    "memoryReservation": 64,
     "portMappings": [
       {
         "hostPort": 0,
@@ -51,6 +52,11 @@ resource "aws_ecs_service" "ecs_service_main" {
   desired_count                      = 10
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
+
+  ordered_placement_strategy {
+    type  = "spread"
+    field = "host"
+  }
 
   load_balancer {
     target_group_arn = var.target_group_arn
