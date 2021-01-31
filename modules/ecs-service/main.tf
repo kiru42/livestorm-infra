@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "ecs_service_task_definition" {
     "memory": 128,
     "portMappings": [
       {
-        "host_port": 0,
+        "hostPort": 0,
         "containerPort": 3000,
         "protocol": "tcp"
       }
