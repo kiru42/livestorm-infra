@@ -100,18 +100,18 @@ resource "aws_security_group" "load_balancer" {
     from_port   = 1
     to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = coalescelist(var.egress_cidrs, list(data.aws_vpc.network.cidr_block))
+    cidr_blocks = list(data.aws_vpc.network.cidr_block)
   }
 }
 
-resource "aws_security_group" "open_to_load_balancer" {
-  name        = "${var.name}-open-to-alb"
+resource "aws_security_group" "ecs" {
+  name        = "${var.name}-ecs"
   vpc_id      = var.vpc_id
-  description = "Open to ALB for ${var.name}"
+  description = "Security Group for ${var.name} ECS container instance"
 
   ingress {
-    from_port = var.service_port
-    to_port   = var.service_port
+    from_port = 1
+    to_port   = 65535
     protocol  = "tcp"
     security_groups = [
       aws_security_group.load_balancer.id

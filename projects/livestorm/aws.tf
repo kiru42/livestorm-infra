@@ -137,7 +137,7 @@ module "asg" {
 
   image_id             = data.aws_ami.amazon_linux_ecs.id
   instance_type        = local.instance_type
-  security_groups      = [module.vpc.default_security_group_id]
+  security_groups      = [module.alb.security_group_id_ecs]
   iam_instance_profile = module.ecs.ecs_iam_instance_profile_id
   user_data            = data.template_file.user_data.rendered
   key_name             = aws_key_pair.admin.key_name

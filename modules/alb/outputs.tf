@@ -33,9 +33,9 @@ output "security_group_id" {
   value       = aws_security_group.load_balancer.id
 }
 
-output "open_to_load_balancer_security_group_id" {
-  description = "The ID of the security group allowing access from the ALB."
-  value       = aws_security_group.open_to_load_balancer.id
+output "security_group_id_ecs" {
+  description = "The ID of the security group associated with the ECS instances."
+  value       = aws_security_group.ecs.id
 }
 
 output "target_group_arn" {
