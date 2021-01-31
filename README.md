@@ -46,21 +46,17 @@ docker run -it -v "$(pwd)":/livestorm -v "$(pwd)/.aws":/root/.aws livestorm-terr
 # Using terraform inside docker container
 
 ```bash
-cd projects/livestorm
-
 # for dev
 terraform workspace select dev
 terraform init && terraform plan
 terraform apply # if everything seems fine to you
 ```
 
-if you don't have access_key/secret_key configured for aws, you can open the following file (`projects/livestorm/provider.tf`) and copy paste this for testing the plan :
+if you don't have access_key/secret_key configured for aws, you can open the following file (`provider.tf`) and copy paste this for testing the plan :
 
 ```tf
 provider "aws" {
-  #profile = "default"
-  region = "eu-west-1"
-  #region                      = "${var.region}"
+  region                      = "${var.region}"
   skip_credentials_validation = true
   skip_requesting_account_id  = true
   skip_metadata_api_check     = true
