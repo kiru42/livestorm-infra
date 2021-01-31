@@ -20,3 +20,9 @@ variable "target_group_arn" {
   type        = string
   default     = null
 }
+
+variable "container_name" {
+  description = "Container name to be used."
+  type        = string
+  default     = null
+}

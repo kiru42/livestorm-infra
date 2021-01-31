@@ -2,7 +2,7 @@
 
 We are going to migrate LiveStorm on ECS.
 
-LiveStorm is a monolithic application built on Rails : responding `Hello world` on GET `/`
+LiveStorm is a highly available web application: responding `Hello world` on GET `/`
 
 We will be creating the infrastruction on AWS using Terraform. 
 
@@ -31,7 +31,7 @@ Things managed manually for testing purpose, could be terraformed if needed :
 - Route53 public zone
 - ACM certificate
 
-Then we will configure a rails application with github actions to build and deploy
+Then we will configure a web application with github actions to build and deploy
 
 # Running docker with infra tools
 

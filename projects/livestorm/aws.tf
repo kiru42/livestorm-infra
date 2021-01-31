@@ -24,6 +24,9 @@ locals {
 
   # ALB releted
   allowed_cidrs_for_alb = ["0.0.0.0/0"]
+
+  # ECS related
+  container_name = "webapp"
 }
 
 #################
@@ -66,12 +69,6 @@ resource "aws_ecs_capacity_provider" "capacity_provider" {
   name = local.resources_prefix
   auto_scaling_group_provider {
     auto_scaling_group_arn = module.asg.this_autoscaling_group_arn
-    # managed_scaling {
-    #   maximum_scaling_step_size = 1000
-    #   minimum_scaling_step_size = 1
-    #   status                    = "ENABLED"
-    #   target_capacity           = 10
-    # }
   }
 }
 
@@ -175,10 +172,11 @@ module "asg" {
 
 # Create ECS Service for livestorm along default task definition
 
-module "hello_world" {
+module "webapp" {
   source           = "../../modules/ecs-service"
   region           = local.region
   name             = local.resources_prefix
+  container_name   = local.container_name
   cluster_id       = module.ecs.ecs_cluster_id
   target_group_arn = module.alb.target_group_arn
 }
