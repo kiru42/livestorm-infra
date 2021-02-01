@@ -4,7 +4,7 @@
 
 # Instance profile for EC2
 resource "aws_iam_role" "ecs_instance_role" {
-  name = "${local.common_tags["Name"]}-instance-role"
+  name = local.common_tags["Name"]
   path = "/ecs/"
 
   assume_role_policy = <<EOF
@@ -26,7 +26,7 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "ecs_instance_profile" {
-  name = "${local.common_tags["Name"]}-instance-profile"
+  name = local.common_tags["Name"]
   role = aws_iam_role.ecs_instance_role.name
 }
 

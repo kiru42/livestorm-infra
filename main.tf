@@ -19,7 +19,7 @@ module "terraform-state" {
 module "vpc" {
   source             = "terraform-aws-modules/vpc/aws"
   version            = "2.66.0"
-  name               = "${terraform.workspace}-${var.project}-${var.application}-vpc"
+  name               = "${terraform.workspace}-${var.project}"
   cidr               = var.cidr
   azs                = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1], data.aws_availability_zones.available.names[2]]
   private_subnets    = var.private_subnets
@@ -27,10 +27,9 @@ module "vpc" {
   enable_nat_gateway = true
 
   tags = {
-    Name        = "${terraform.workspace}-${var.project}-${var.application}-vpc"
+    Name        = "${terraform.workspace}-${var.project}"
     Environment = terraform.workspace
     Project     = var.project
-    Application = var.application
   }
 }
 

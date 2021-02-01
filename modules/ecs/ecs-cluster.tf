@@ -4,7 +4,7 @@
 
 # Capacity Provider
 resource "aws_ecs_capacity_provider" "capacity_provider" {
-  name = "${local.common_tags["Name"]}-cp"
+  name = local.common_tags["Name"]
   auto_scaling_group_provider {
     auto_scaling_group_arn = aws_autoscaling_group.ecs_asg.arn
   }
@@ -13,7 +13,7 @@ resource "aws_ecs_capacity_provider" "capacity_provider" {
 # ECS Cluster
 resource "aws_ecs_cluster" "ecs_cluster" {
 
-  name = "${local.common_tags["Name"]}-ecs"
+  name = local.common_tags["Name"]
 
   capacity_providers = ["FARGATE", "FARGATE_SPOT", aws_ecs_capacity_provider.capacity_provider.name]
 

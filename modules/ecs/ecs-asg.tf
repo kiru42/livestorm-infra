@@ -3,7 +3,7 @@
 ###################
 
 resource "aws_autoscaling_group" "ecs_asg" {
-  name = "${local.common_tags["Name"]}-ecs-asg"
+  name = local.common_tags["Name"]
 
   launch_configuration = aws_launch_configuration.ecs_launch_config.id
   health_check_type    = "ELB"
@@ -25,7 +25,7 @@ resource "aws_autoscaling_group" "ecs_asg" {
     },
     {
       key                 = "Cluster"
-      value               = "${local.common_tags["Name"]}-ecs"
+      value               = local.common_tags["Name"]
       propagate_at_launch = true
     },
     {

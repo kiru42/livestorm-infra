@@ -22,7 +22,7 @@ data "template_file" "user_data" {
   template = file("${path.module}/templates/user-data.sh")
 
   vars = {
-    cluster_name = "${local.common_tags["Name"]}-ecs"
+    cluster_name = local.common_tags["Name"]
   }
 }
 
@@ -31,7 +31,7 @@ data "template_file" "user_data" {
 ###################
 
 resource "aws_launch_configuration" "ecs_launch_config" {
-  name_prefix                 = "${local.common_tags["Name"]}-lc"
+  name_prefix                 = local.common_tags["Name"]
   associate_public_ip_address = false
   iam_instance_profile        = aws_iam_instance_profile.ecs_instance_profile.id
   image_id                    = data.aws_ami.amazon_linux_ecs.id

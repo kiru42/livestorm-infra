@@ -1,5 +1,5 @@
 resource "aws_security_group" "load_balancer" {
-  name        = "${local.common_tags["Name"]}-sg-alb"
+  name        = "${local.common_tags["Name"]}-loadbalancer"
   vpc_id      = var.vpc_id
   description = "Security group for ALB"
 
@@ -26,7 +26,7 @@ resource "aws_security_group" "load_balancer" {
 }
 
 resource "aws_security_group" "ecs" {
-  name        = "${local.common_tags["Name"]}-sg-ecs"
+  name        = "${local.common_tags["Name"]}-ecs"
   vpc_id      = var.vpc_id
   description = "Security Group for ECS container instances"
 

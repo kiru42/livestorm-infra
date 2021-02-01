@@ -3,7 +3,7 @@
 ###################
 
 resource "aws_ecs_service" "ecs_service" {
-  name            = "${local.common_tags["Name"]}-ecs-svc"
+  name            = local.common_tags["Name"]
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_service_task_definition.arn
 

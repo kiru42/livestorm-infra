@@ -4,7 +4,7 @@
 
 # default task definition (needed to create ECS service), then managed by CI/CD from github actions
 resource "aws_ecs_task_definition" "ecs_service_task_definition" {
-  family       = "${local.common_tags["Name"]}-task-def"
+  family       = local.common_tags["Name"]
   network_mode = "bridge"
 
   container_definitions = <<EOF
@@ -29,7 +29,7 @@ resource "aws_ecs_task_definition" "ecs_service_task_definition" {
       "logDriver": "awslogs",
       "options": {
         "awslogs-region": "${var.region}",
-        "awslogs-group": "${aws_ecs_cluster.ecs_cluster.id}",
+        "awslogs-group": "${aws_ecs_cluster.ecs_cluster.name}",
         "awslogs-stream-prefix": "${var.ecs_container_name}"
       }
     }

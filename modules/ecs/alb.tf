@@ -4,7 +4,7 @@
 
 # Create ALB
 resource "aws_lb" "alb" {
-  name    = "${local.common_tags["Name"]}-alb"
+  name    = local.common_tags["Name"]
   subnets = var.public_subnet_ids
   security_groups = [
     aws_security_group.load_balancer.id
@@ -17,7 +17,7 @@ resource "aws_lb" "alb" {
 
 # Create Target Group
 resource "aws_lb_target_group" "target_group" {
-  name        = "${local.common_tags["Name"]}-tg"
+  name        = local.common_tags["Name"]
   port        = var.ecs_service_port
   protocol    = "HTTP"
   vpc_id      = var.vpc_id

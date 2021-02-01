@@ -1,6 +1,6 @@
 resource "aws_route53_record" "service_public" {
   zone_id = var.public_zone_id
-  name    = "${local.common_tags["Name"]}.${var.domain_name}"
+  name    = "${local.common_tags["Environment"]}-${local.common_tags["Project"]}.${var.domain_name}"
   type    = "A"
 
   alias {
