@@ -9,9 +9,12 @@ public_subnets  = ["10.1.11.0/24", "10.1.12.0/24"]
 private_subnets = ["10.1.1.0/24", "10.1.2.0/24"]
 
 # ECS
-instance_type   = "t2.micro"
-container_name  = "webapp"
-service_port    = 3000
+ecs_min_instances    = 2
+ecs_max_instances    = 4
+ecs_desired_capacity = 2
+ecs_instance_type    = "t2.micro"
+ecs_container_name   = "webapp"
+ecs_service_port     = 3000
 
 # Route53
 public_zone_id = "Z10013643R0L0TLYMUOW8"

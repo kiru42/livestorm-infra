@@ -40,19 +40,37 @@ variable "private_subnets" {
 
 ## ECS variables
 
-variable "instance_type" {
+variable "ecs_min_instances" {
+  description = "ASG max ECS instances."
+  type        = string
+  default     = null
+}
+
+variable "ecs_max_instances" {
+  description = "ASG min ECS instances."
+  type        = string
+  default     = null
+}
+
+variable "ecs_desired_capacity" {
+  description = "ASG desired ECS instances."
+  type        = string
+  default     = null
+}
+
+variable "ecs_instance_type" {
   description = "Instance type to be used with ECS."
   type        = string
   default     = null
 }
 
-variable "container_name" {
+variable "ecs_container_name" {
   description = "Container name for ECS."
   type        = string
   default     = null
 }
 
-variable "service_port" {
+variable "ecs_service_port" {
   description = "Service port to use."
   type        = string
   default     = null

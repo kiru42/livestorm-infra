@@ -31,14 +31,13 @@ module "vpc" {
     Environment = terraform.workspace
     Project     = var.project
     Application = var.application
-    Component   = "vpc"
   }
 }
 
-########### LIVESTORM
+########### LIVESTORM ECS cluster
 
-module "livestorm" {
-  source = "./modules/livestorm"
+module "ecs" {
+  source = "./modules/ecs"
 
   # PROJECT
   project     = var.project
@@ -52,9 +51,12 @@ module "livestorm" {
   private_subnet_ids = module.vpc.private_subnets
 
   # ECS
-  instance_type  = var.instance_type
-  container_name = var.container_name
-  service_port   = var.service_port
+  ecs_min_instances    = var.ecs_min_instances
+  ecs_max_instances    = var.ecs_max_instances
+  ecs_desired_capacity = var.ecs_desired_capacity
+  ecs_instance_type    = var.ecs_instance_type
+  ecs_container_name   = var.ecs_container_name
+  ecs_service_port     = var.ecs_service_port
 
   # ROUTE53
   public_zone_id = var.public_zone_id
