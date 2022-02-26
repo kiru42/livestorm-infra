@@ -26,19 +26,16 @@ variable "cidr" {
   default     = "0.0.0.0/0"
 }
 
-variable "vpc_id" {
-  description = "The ID of the VPC into which to deploy the load balancer."
-  type        = string
+variable "public_subnets" {
+  description = "A list of public subnets inside the VPC"
+  type        = list(string)
+  default     = []
 }
 
-variable "public_subnet_ids" {
-  description = "The VPC public subnets ids."
+variable "private_subnets" {
+  description = "A list of private subnets inside the VPC"
   type        = list(string)
-}
-
-variable "private_subnet_ids" {
-  description = "The VPC private subnets ids."
-  type        = list(string)
+  default     = []
 }
 
 ## ECS variables
